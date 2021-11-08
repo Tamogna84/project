@@ -184,7 +184,7 @@ void Shoot()
 	{
 		system("cls");
 
-		Show_map_comp(field_comp_ship, field_comp_move);
+		//Show_map_comp(field_comp_ship, field_comp_move);
 		Show_map_player(field_player_ship, field_player_move);
 		cout << endl << endl;
 		cout << "У игрока  " << hit_player << "   попаданий!!!" << endl;
@@ -198,6 +198,7 @@ void Shoot()
 		}
 		else if (attack == "comp")
 		{
+			Sleep(rand() % 3001 + 1500);
 			char coord_comp[] = "абвгдежзик";
 			coordinates = coord_comp[rand() % 10] + (to_string(rand() % 10));
 		}
@@ -205,7 +206,7 @@ void Shoot()
 		tm* timeinfo = localtime(&seconds);
 		fout.open("log_game.txt", ios::app);
 		if (fout.is_open())
-			fout << "\n----------------------" << endl << asctime(timeinfo) << "   " << coordinates << "   " << attack;
+			fout << coordinates << "   " << asctime(timeinfo) << "   " << attack << "\n----------------------" << endl;
 		fout.close();
 		switch (coordinates[0])
 		{
@@ -437,6 +438,7 @@ int main()
 	char ch;
 	while (true)
 	{
+		SetConsoleTitle(L"Морской бой");
 		int x = 50, y = 12;
 		GoToXY(x, y);
 		for (int i = 0; i < size(Menu); i++)
@@ -465,17 +467,36 @@ int main()
 			switch (active_menu)
 			{
 			case 0:
+				SetConsoleTitle(L"Морской бой");
 				system("CLS");
 				GoToXY(x, y);
 				SetConsoleTextAttribute(hStdOut, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
 				cout << "Начинается игра.......приготовтесь";
+				for (int i = 0; i <= 5; i++)
+				{
+					cout << ". ";
+					Sleep(1000);
+				}
+				cout << "Нажмите ENTER";
 				fout.open("log_game.txt", ios::app);
 				if (fout.is_open())
 					fout << "\n\nНАЧАЛО ИГРЫ" << endl;
-				fout.close();				
+				fout.close();
 				_getch();
 				system("CLS");
-
+				cout << "                           . . . . . . . " << endl;
+				cout << "           . . . .         . _ _ _ _ _ . " << endl;
+				cout << "           .     .         . _ _ _ _ _ . " << endl;
+				cout << "           .     .         . . . . . . . " << endl;
+				cout << "           .     .         .             " << endl;
+				cout << "           .     .         .             " << endl;
+				cout << "   . . . . . . . . . . . . . . . . . .   " << endl;
+				cout << "   .                                 .   " << endl;
+				cout << "     .                             .     " << endl;
+				cout << "       .                         .       " << endl;
+				cout << "         .                     .         " << endl;
+				cout << "           . . . . . . . . . .           " << endl;
+				Sleep(2000);
 				//заполнение кораблями поля соперника (рандом)
 				PositionOfShip(field_comp_ship, 1, 4);
 				PositionOfShip(field_comp_ship, 2, 3);
@@ -493,7 +514,7 @@ int main()
 					Shoot();
 					if (hit_comp == 20)
 					{
-						cout << "ПОБЕДА ЗА КОМЬЮТЕРОМ!" << endl;
+						cout << "\n\t\x1b[31m ПОБЕДА ЗА КОМЬЮТЕРОМ !!!\x1b[0m" << endl;
 
 						Sleep(5000);
 						break;
@@ -501,27 +522,21 @@ int main()
 					if (hit_player == 20)
 					{
 
-						cout << "\n\x1b[31mВЫ ВЫИГРАЛИ БИТВУ!!!\x1b[0m" << endl; // "\x1b[31mтекст\x1b[0m"
+						cout << "\n\t\x1b[31mВЫ ВЫИГРАЛИ БИТВУ!!!\x1b[0m" << endl; // "\x1b[31mтекст\x1b[0m"
 						Sleep(5000);
 						cout << endl << endl;
 						break;
 					}
-
-
 				}
 				cout << "ТУМАН ВОЙНЫ РАЗВЕЯЛСЯ И ПЕРЕД НАШИМ ВЗОРОМ ПРЕДСТАЮТ КОРАБЛИ ПРОТИВНИКОВ))" << endl << endl;
-
 				Show_map_comp(field_comp_ship, field_comp_move);
-
 				system("pause>nul");
 				system("cls");
 				break;
 			case 1:
 			{
-				
 				system("cls");
-				SetConsoleTitle(L"Морской бой - Справка по Игрее");
-				
+				SetConsoleTitle(L"Морской бой - Справка по Игре");
 				ConsoleCursorVisible(false, 100);
 				string words;
 				ifstream in("spravka1.txt"); // окрываем файл для чтения
